@@ -1,9 +1,9 @@
 import numpy
-import sys
 
 max_row = 0
 max_column = 0
 result_string = ''
+
 
 def main():
     global max_row
@@ -91,5 +91,4 @@ def check_cells(row, column, direction, matrix):
 
 
 if __name__ == "__main__":
-    sys.setrecursionlimit(10000)
     main()

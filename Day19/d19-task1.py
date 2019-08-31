@@ -1,9 +1,9 @@
 import numpy
-import sys
 
 max_row = 0
 max_column = 0
 result_string = ''
+
 
 def main():
     global max_row
@@ -31,7 +31,6 @@ def main():
         result = search(matrix, result[0], result[1], result[2])
         if result[2] == 'end':
             break
-    print(result_string)
 
 
 def search(matrix, row, column, direction):
@@ -90,5 +89,4 @@ def check_cells(row, column, direction, matrix):
 
 
 if __name__ == "__main__":
-    sys.setrecursionlimit(10000)
     main()
