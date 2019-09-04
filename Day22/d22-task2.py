@@ -21,37 +21,55 @@ def main():
     max_column = len(line_list[0]) + matrix_margin
     max_row = len(line_list) + matrix_margin
     current_position = [int(max_row/2), int(max_column/2)]
-    matrix = numpy.zeros([max_row, max_column], dtype=bool)
+    matrix = numpy.zeros([max_row, max_column])
     for row in range(max_row-matrix_margin):
         line = line_list[row]
         for column in range(len(line)):
             if line[column] == '#':
-                matrix[row+int(matrix_margin/2)][column+int(matrix_margin/2)] = True
+                matrix[row+int(matrix_margin/2)][column+int(matrix_margin/2)] = 2
     direction = 'up'
-    for i in range(10000):
+    for i in range(10000000):
         direction = virus_work(matrix, current_position, direction)
     print(counter)
 
 
 def virus_work(matrix, current_position, direction):
     global counter
-    if not matrix[current_position[0]][current_position[1]]:
-        matrix[current_position[0]][current_position[1]] = True
+    clean = 0
+    weakened = 1
+    infected = 2
+    flagged = 3
+    if matrix[current_position[0]][current_position[1]] == clean:
+        matrix[current_position[0]][current_position[1]] = weakened
+        if direction == 'up':
+            current_position[1] -= 1
+            return 'left'
+        elif direction == 'down':
+            current_position[1] += 1
+            return 'right'
+        elif direction == 'right':
+            current_position[0] -= 1
+            return 'up'
+        else:
+            current_position[0] += 1
+            return 'down'
+    elif matrix[current_position[0]][current_position[1]] == weakened:
+        matrix[current_position[0]][current_position[1]] = infected
         counter += 1
         if direction == 'up':
-            current_position[1] -= 1
-            return 'left'
-        elif direction == 'down':
-            current_position[1] += 1
-            return 'right'
-        elif direction == 'right':
             current_position[0] -= 1
             return 'up'
-        else:
+        elif direction == 'down':
             current_position[0] += 1
             return 'down'
-    else:
-        matrix[current_position[0]][current_position[1]] = False
+        elif direction == 'right':
+            current_position[1] += 1
+            return 'right'
+        else:
+            current_position[1] -= 1
+            return 'left'
+    elif matrix[current_position[0]][current_position[1]] == infected:
+        matrix[current_position[0]][current_position[1]] = flagged
         if direction == 'up':
             current_position[1] += 1
             return 'right'
@@ -64,6 +82,20 @@ def virus_work(matrix, current_position, direction):
         else:
             current_position[0] -= 1
             return 'up'
+    else:
+        matrix[current_position[0]][current_position[1]] = clean
+        if direction == 'up':
+            current_position[0] += 1
+            return 'down'
+        elif direction == 'down':
+            current_position[0] -= 1
+            return 'up'
+        elif direction == 'right':
+            current_position[1] -= 1
+            return 'left'
+        else:
+            current_position[1] += 1
+            return 'right'
 
 
 if __name__ == "__main__":
